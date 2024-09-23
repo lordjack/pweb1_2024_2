@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <script>
+      function formulario(event) {
+        event.preventDefault();
+
+        var primeiro_nome = document.getElementById("primeiro_nome").value;
+        var segundo_nome = document.getElementById("segundo_nome").value;
+
+        alert(primeiro_nome + " - " + segundo_nome);
+
+      }
+    </script>
+  </head>
+  <body>
+    <form action="" method="post">
+      <fieldset>
+        <legend><b>Formulário Matricula de Curso</b></legend>
+        <br />
+        <label for="">Primeiro Nome:</label><br />
+        <input type="text" name="primeiro_nome" id="primeiro_nome" /><br />
+
+        <label for="">Segundo Nome:</label><br />
+        <input type="text" name="segundo_nome" id="segundo_nome" />
+        <br />
+
+        <b>Curso:</b><br />
+        <input type="radio" name="curso" value="Técnico em Informática" id="" />
+        <label for="">Técnico em Informática</label><br />
+        <input
+          type="radio"
+          name="curso"
+          value="Graduação - Análise e Desenvolvimento de Sistemas"
+        />
+        <label for="">Graduação - Análise e Desenvolvimento de Sistemas</label><br />
+        <input
+          type="radio"
+          name="curso"
+          value="Profissionalizante - Programação Web"
+        />
+        <label for="">Profissionalizante - Programação Web</label><br />
+        <br />
+
+        <b>Linguagem de programação de sua preferência:</b><br />
+        <input type="checkbox" name="linguagem_php" id="linguagem_php" />
+        <label for="">PHP</label><br />
+        <input type="checkbox" name="linguagem_java" id="linguagem_java" />
+        <label for="">Java</label><br />
+        <input type="checkbox" name="linguagem_python" id="linguagem_python" />
+        <label for="">Python</label><br />
+
+        <label for=""> <b> Turno</b></label><br />
+        <select name="turno" id="turno">
+          <option value="manha">Manhã</option>
+          <option value="tarde">Tarde</option>
+          <option value="noite">Noite</option>
+        </select>
+        <br />
+        <b>Escolha uma unidade mais próxima de você</b> <br />
+        <input list="unidades" name="unidades" id="unidade" />
+
+        <datalist id="unidades">
+          <option value="Chapecó">Chapecó</option>
+          <option value="Xaxim">Xaxim</option>
+          <option value="Xanxerê">Xanxerê</option>
+        </datalist>
+        <br />
+
+        <input type="submit" value="Enviar" onclick="formulario(event)" />
+      </fieldset>
+    </form>
+  </body>
+</html>
