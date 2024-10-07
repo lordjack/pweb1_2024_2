@@ -1,0 +1,18 @@
+body{
+    background-color: darkgray;
+}
+
+h1{
+    color: whitesmoke;
+    font-family: 'Roboto', sans-serif;
+    padding: 20px;
+}
+
+p{
+    color: #667;
+    font-size: 16px;
+    border: solid red 2px;
+    margin: 10px;
+    border-radius: 10px;
+    padding: 3px;
+}
