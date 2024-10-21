@@ -7,6 +7,10 @@ Código-Fonte do Projeto desenvolvido durante as aulas de programação web 1 no
 **Clonar o projeto**  
 `git clone URL_PROJETO`
 
+**Configurar o email e nome do repositorio** 
+`git config --global user.email "you@example.com"` 
+`git config --global user.name "Your Name"`
+
 **Adicionar todos arquivos para serem versionados**  
 `git add .`
 
@@ -18,6 +22,8 @@ Código-Fonte do Projeto desenvolvido durante as aulas de programação web 1 no
 
 **Atualizar arquivos do projeto local de acordo com o repositorio do Git remoto**  
 `git pull`
+
+
 
 ## Dicas atalhos no VSCode
 [Vídeo com as dicas](https://youtu.be/MZgbd7bjCTk?si=0zN4B2YsXLU3a9Z8) 
