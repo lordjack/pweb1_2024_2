@@ -16,7 +16,7 @@ class db {
 
         try{
             $conn = new PDO(
-                "mysql:host=$this->host;dbname=$this->dbname",
+                "mysql:host=$this->host;dbname=$this->dbname;port=$this->port;",
                 $this->user,
                 $this->password,
                 [
