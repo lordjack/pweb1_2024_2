@@ -19,5 +19,6 @@
     <input type="text" name="nome"> <br>
 
     <button type="submit">Salvar</button>
+    <a href='./CategoriaList.php'>Voltar</a><br>
 
 </form>

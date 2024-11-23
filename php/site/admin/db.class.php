@@ -5,7 +5,7 @@ class db {
     private $host = "localhost";
     private $user = "root";
     private $password = "";
-    private $port = "3307";
+    private $port = 3307;
     private $dbname ="db_pweb1_2024_2_blog";
 
     public function __construct(){
@@ -54,6 +54,38 @@ class db {
         $st = $conn->prepare($sql);
 
         $st->execute();
+
+        return $st->fetchAll(PDO::FETCH_CLASS);
+
+    }
+
+    public function destroy($id){
+
+        $conn = $this->conn();
+
+        $sql = "DELETE FROM categoria WHERE id = ?";
+
+        $st = $conn->prepare($sql);
+
+        $st->execute([$id]);
+
+    }
+
+    public function search($dados){
+
+        $campo = $dados['tipo'];
+        $valor = $dados['valor'];
+
+        //var_dump($dados);
+        //  exit;
+
+        $conn = $this->conn();
+
+        $sql = "SELECT * FROM categoria WHERE $campo LIKE ?";
+
+        $st = $conn->prepare($sql);
+
+        $st->execute(["%$valor%"]);
 
         return $st->fetchAll(PDO::FETCH_CLASS);
 
