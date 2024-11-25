@@ -7,9 +7,11 @@ class db {
     private $password = "";
     private $port = 3307;
     private $dbname ="db_pweb1_2024_2_blog";
+    private $table_name;
 
-    public function __construct(){
+    public function __construct($table_name){
         $this->conn();
+        $this->table_name = $table_name; 
     }
 
     public function conn(){
@@ -37,11 +39,27 @@ class db {
 
         $conn = $this->conn();
 
-        $sql = "INSERT INTO categoria (nome) VALUES (?)";
+        $sql = "INSERT INTO $this->table_name (";
+        unset($dados['id']);
 
+        $flag = 0;
+        $arrayValues =[];
+        foreach($dados as $campo =>$valor){
+            $sql .= $flag == 0 ? "$campo " : ",$campo";
+            $flag = 1;
+        }
+        $sql .= ") VALUES (";
+
+        $flag = 0;
+        foreach($dados as $campo =>$valor){
+            $sql .= $flag == 0 ? "? " : ",?";
+            $flag = 1;
+            $arrayValues[] = $valor;
+        }
+        $sql .= ")";
         $st = $conn->prepare($sql);
 
-        $st->execute([ $dados['nome'] ]);
+        $st->execute($arrayValues);
 
     }
 
@@ -50,11 +68,20 @@ class db {
         $id = $dados['id'];
         $conn = $this->conn();
 
-        $sql = "UPDATE categoria SET nome=? WHERE id = $id";
+        $sql = "UPDATE $this->table_name SET ";
+        $flag = 0;
+        $arrayValues =[];
 
+        foreach($dados as $campo =>$valor){
+            $sql .= $flag == 0 ? "$campo=? " : ",$campo=?";
+            $flag = 1;
+            $arrayValues[] = $valor;
+        }
+
+        $sql .= " WHERE id = $id";
         $st = $conn->prepare($sql);
 
-        $st->execute([ $dados['nome'] ]);
+        $st->execute($arrayValues);
 
     }
 
@@ -62,7 +89,7 @@ class db {
 
         $conn = $this->conn();
 
-        $sql = "SELECT * FROM categoria";
+        $sql = "SELECT * FROM $this->table_name";
 
         $st = $conn->prepare($sql);
 
@@ -76,7 +103,7 @@ class db {
 
         $conn = $this->conn();
 
-        $sql = "DELETE FROM categoria WHERE id = ?";
+        $sql = "DELETE FROM $this->table_name WHERE id = ?";
 
         $st = $conn->prepare($sql);
 
@@ -94,7 +121,7 @@ class db {
 
         $conn = $this->conn();
 
-        $sql = "SELECT * FROM categoria WHERE $campo LIKE ?";
+        $sql = "SELECT * FROM $this->table_name WHERE $campo LIKE ?";
 
         $st = $conn->prepare($sql);
 
@@ -108,7 +135,7 @@ class db {
 
         $conn = $this->conn();
 
-        $sql = "SELECT * FROM categoria WHERE id LIKE ?";
+        $sql = "SELECT * FROM $this->table_name WHERE id LIKE ?";
 
         $st = $conn->prepare($sql);
 

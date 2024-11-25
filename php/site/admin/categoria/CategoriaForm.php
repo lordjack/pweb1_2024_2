@@ -1,7 +1,7 @@
 <?php
  include "../db.class.php";
 
-    $db = new db();
+    $db = new db('categoria');
 
     if(!empty($_POST)){
 
