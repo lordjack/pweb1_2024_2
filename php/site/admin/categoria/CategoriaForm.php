@@ -3,6 +3,8 @@
 
     $db = new db('categoria');
 
+    $db->checkLogin();
+
     if(!empty($_POST)){
 
         if(empty($_POST['id'])) {
@@ -27,6 +29,8 @@
 <form action="CategoriaForm.php" method="post">
     
     <h4>Formulário Categoria</h4>
+
+    <a href='../Login.php?logout=true' style="float: right;">Sair</a><br>
 
     <input type="hidden" name="id"
         value="<?php echo $data->id ?? "" ?>"    

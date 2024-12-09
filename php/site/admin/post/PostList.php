@@ -3,6 +3,8 @@
 
     $db = new db('post');
 
+    $db->checkLogin();
+
     if(!empty($_GET['id'])){
         $db->destroy($_GET['id']);
         header('Location:PostList.php');
@@ -17,6 +19,7 @@
 ?>
 <h4>Listagem de Post</h4>
 
+<a href='../Login.php?logout=true' style="float: right;">Sair</a><br>
 
 <form action="./PostList.php" method="post">
 

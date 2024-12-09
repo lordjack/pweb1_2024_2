@@ -3,6 +3,8 @@
 
     $db = new db('post');
 
+    $db->checkLogin();
+
     $categorias = $db->all('categoria');
 
    // var_dump($categorias);
@@ -33,6 +35,8 @@
     
     <h4>Formulário Post</h4>
 
+    <a href='../Login.php?logout=true' style="float: right;">Sair</a><br>
+
     <input type="hidden" name="id"
         value="<?php echo $data->id ?? "" ?>"    
     >
@@ -47,9 +51,12 @@
         value="<?php echo $data->data_publicacao ?? "" ?>"
     ><br>
     <label for="">Status</label> <br>
+    <?php 
+        echo $data->status;
+    ?>
     <select name="status">
-        <option <?php $data->status =="SIM" ? "selected" :""?> value="SIM">SIM</option>
-        <option <?php $data->status =="NÃO" ? "selected" :""?> value="NÃO">NÃO</option>
+        <option <?php !empty($data->status) && $data->status ==="SIM" ? "selected" :""?> value="SIM">SIM</option>
+        <option <?php !empty($data->status) && $data->status ==="NAO" ? "selected" :""?> value="NAO">NÃO</option>
     </select><br>
 
     <label for="">Categoria</label> <br>

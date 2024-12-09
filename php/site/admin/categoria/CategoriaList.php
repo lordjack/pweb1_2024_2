@@ -3,6 +3,8 @@
 
     $db = new db('categoria');
 
+    $db->checkLogin();
+
     if(!empty($_GET['id'])){
         $db->destroy($_GET['id']);
         header('Location:CategoriaList.php');
@@ -17,6 +19,7 @@
 ?>
 <h4>Listagem de Categoria</h4>
 
+<a href='../Login.php?logout=true' style="float: right;">Sair</a><br>
 
 <form action="./CategoriaList.php" method="post">
 
