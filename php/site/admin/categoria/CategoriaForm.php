@@ -17,7 +17,7 @@
     }
 
     if(!empty($_GET['id'])){
-        $data = $db->find($_GET['id']);
+        $data = $db->find('categoria',$_GET['id']);
     }
 ?>
 

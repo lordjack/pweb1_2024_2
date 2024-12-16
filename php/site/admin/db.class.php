@@ -10,8 +10,8 @@ class db {
     private $table_name;
 
     public function __construct($table_name){
-        $this->conn();
         $this->table_name = $table_name; 
+        return $this->conn();
     }
 
     public function conn(){
@@ -33,6 +33,12 @@ class db {
         } catch(PDOException $e){
             echo "Erro: ". $e->getMessage();
         }
+    }
+
+    public function query($sql)
+    {
+        $conn = $this->conn();
+        return $conn->query($sql);
     }
 
     public function insert($dados){
