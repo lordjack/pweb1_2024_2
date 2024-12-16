@@ -8,7 +8,17 @@
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css" integrity="sha512-Kc323vGBEqzTmouAECnVceyQqyqdsSiqLQISBL29aUW4U/M7pSPA/gEUZQqv1cwx4OnYxTxve5UMg5GT6L4JJg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="css/style.css">
+    <?php 
+    
+      include_once "../../php/site/admin/db.class.php";
+      
+      $db = new db('post');
+
+      $dados = $db->all();
+
+    ?>
 </head>
+
   <body>
     <div class="container">
         <header class="blog-header py-3">
@@ -92,16 +102,30 @@
 
             <div class="row">
                 <div class="col-md-8">
+                    <?php 
+                      foreach ($dados as $item){
+
+                        if($item->status == "SIM"){
+
+                          $data_publicacao = date('d/m/Y H:i', strtotime($item->data_publicacao));
+                    
+                          $categoria = $db->find("categoria",$item->categoria_id);
+
+                          echo "
+                            <article class='blog-post'>
+                              <h2 class='blog-post-title'>$item->titulo</h2>
+                              <p class='blog-post-meta'>$data_publicacao <a href='#'>Categoria: $categoria->nome</a></p>
+                              <p style='text-align:justify'>$item->texto</p>
+                            </article>
+                          ";
+                        }
+                      } 
+
+                    ?>
+
                     <h3 class="pb-4 mb-4 fst-italic border-botton">Chapecó e Região</h3>
                     
-                    <article class="blog-post">
-                        <h2 class="blog-post-title">Postagem de exemplo 01</h2>
-                        <p class="blog-post-meta">4 Setembro, 2024 <a href="#">Marcos</a></p>
-                        <p style="text-align:justify"> Lorem ipsum dolor sit amet, consectetur adipisicing elit. Asperiores repudiandae iusto laudantium nihil beatae quae eum magni sequi recusandae, corrupti ullam voluptates, nobis dicta ratione porro cumque itaque totam eos?  </p>
-                        <p style="text-align:justify"> Lorem ipsum dolor sit amet consectetur adipisicing elit. Beatae impedit, necessitatibus voluptatum molestias blanditiis deleniti dolorem nisi nihil libero dolores provident vitae obcaecati fuga voluptate quibusdam tenetur repellat ratione cumque. </p>
-                        <p style="text-align:justify"> Lorem ipsum dolor sit, amet consectetur adipisicing elit. Eius molestias ipsam culpa recusandae illum totam? Officia, nesciunt, ipsa animi unde recusandae corrupti voluptate veniam natus labore commodi, porro repellat quae. </p>
-                        <p style="text-align:justify"> Lorem, ipsum dolor sit amet consectetur adipisicing elit. Adipisci, qui fugit harum autem natus numquam animi incidunt, ab quia eos pariatur, architecto repellat voluptatum ex! Magni quae facere officia eaque! </p>
-                    </article>
+                    
                     <br>
                     <br>
                     <article class="blog-post">

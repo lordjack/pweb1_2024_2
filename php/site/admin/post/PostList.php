@@ -1,6 +1,6 @@
 <?php
- include "../db.class.php";
-
+ include "../db.class.php"; 
+ include_once "../header.php";
     $db = new db('post');
 
     $db->checkLogin();
@@ -19,30 +19,33 @@
 ?>
 <h4>Listagem de Post</h4>
 
-<a href='../Login.php?logout=true' style="float: right;">Sair</a><br>
-
 <form action="./PostList.php" method="post">
-
-    <div>
-        <select name="tipo">
-            <option value="nome">Nome</option>
-        </select>
-        <input type="text" name="valor">
-        <button type="submit">Buscar</button>
-        <a href='./PostForm.php'>Cadastrar</a><br>
+    <div class="row">
+        <div class="col-3">
+            <select class="form-select" name="tipo">
+                <option value="nome">Nome</option>
+            </select>
+        </div>
+        <div class="col-4">
+            <input class="form-control" type="text" name="valor">
+        </div>
+        <div class="d-flex col-4 gap-2">
+            <button class="btn btn-primary" type="submit"><i class="fa-solid fa-magnifying-glass"></i> Buscar</button>
+    
+            <a class="btn btn-success" href='./PostForm.php'><i class="fa-solid fa-plus"></i> Cadastrar</a><br>
+        </div>
     </div>
-
 </form>
 
-<table>
+<table class="table table-striped table-hover">
     <thead>
-        <th>ID</th>
-        <th>Titulo</th>
-        <th>Data Publicação</th>
-        <th>Status</th>
-        <th>Categoria</th>
-        <th>Ação</th>
-        <th>Ação</th>
+        <th scope="col">ID</th>
+        <th scope="col">Titulo</th>
+        <th scope="col">Data Publicação</th>
+        <th scope="col">Status</th>
+        <th scope="col">Categoria</th>
+        <th scope="col">Ação</th>
+        <th scope="col">Ação</th>
     </thead>
     <tbody>
         <tr>
@@ -62,8 +65,8 @@
                         <td>$data_publicacao</td>
                         <td>$item->status</td>
                         <td>$categoria->nome</td>
-                        <td><a href='./PostForm.php?id=$item->id'>Editar</a></td>
-                        <td><a onclick='return confirm(\"Deseja Excluir? \")' href='./PostList.php?id=$item->id'>Deletar</a></td>
+                        <td><a class='btn btn-warning' href='./PostForm.php?id=$item->id'><i class='fa-solid fa-pen-to-square'></i></a></td>
+                        <td><a class='btn btn-danger' onclick='return confirm(\"Deseja Excluir? \")' href='./PostList.php?id=$item->id'><i class='fa-solid fa-trash'></i></a></td>
                     </tr>
                     ";
                 }
@@ -71,3 +74,5 @@
         </tr>
     </tbody>
 </table>
+
+<?php include_once "../footer.php" ?>
