@@ -12,6 +12,9 @@ $success = '';
 
 // Verificação de POST com validação simplificada
 if (!empty($_POST)) {
+    // **SEMPRE preserva os dados do POST para exibição**
+    $data = (object) $_POST;
+
     // Validações básicas
     if (empty(trim($_POST['titulo']))) {
         $errors[] = "Título é obrigatório";
@@ -46,23 +49,43 @@ if (!empty($_POST)) {
                 $success = "Registro atualizado com sucesso!";
             }
 
+            // **Limpa os dados após sucesso para evitar reenvio**
+            if ($success) {
+                $data = null;
+            }
+
             // Redirecionamento após sucesso
             echo "<script>setTimeout(() => window.location.href = 'PostList.php', 1500);</script>";
         } catch (Exception $e) {
             $errors[] = "Erro ao salvar: " . $e->getMessage();
         }
     }
-}
-
-// Verificação de GET (para editar)
-if (!empty($_GET['id'])) {
-    $data = $db->find('post', $_GET['id']);
+} else {
+    // Verificação de GET (para editar) - só se não for POST
+    if (!empty($_GET['id'])) {
+        $data = $db->find('post', $_GET['id']);
+    }
 }
 
 // Função para formatar data para datetime-local
 function formatDate($date)
 {
     return $date ? date('Y-m-d\TH:i', strtotime($date)) : '';
+}
+
+// **Função melhorada para manter valores do formulário**
+function getValue($field, $data = null)
+{
+    if ($data && isset($data->$field)) {
+        return htmlspecialchars($data->$field);
+    }
+    return '';
+}
+
+// **Função melhorada para manter seleção**
+function isSelected($value, $selected)
+{
+    return $value == $selected ? 'selected' : '';
 }
 ?>
 
@@ -88,21 +111,21 @@ function formatDate($date)
     <div class="card">
         <div class="card-header">
             <h4 class="mb-0">
-                <?= !empty($data) ? 'Editar Post' : 'Novo Post' ?>
+                <?= !empty($data) && !empty($_GET['id']) ? 'Editar Post' : 'Novo Post' ?>
             </h4>
         </div>
         <div class="card-body">
             <form action="PostForm.php" method="post">
-                <input type="hidden" name="id" value="<?= $data->id ?? '' ?>">
+                <input type="hidden" name="id" value="<?= getValue('id', $data) ?>">
 
                 <!-- Título -->
                 <div class="mb-3">
                     <label for="titulo" class="form-label">Título *</label>
                     <input type="text"
                         name="titulo"
-                        class="form-control"
+                        class="form-control <?= !empty($errors) && empty(trim($_POST['titulo'] ?? '')) ? 'is-invalid' : '' ?>"
                         id="titulo"
-                        value="<?= htmlspecialchars($data->titulo ?? '') ?>"
+                        value="<?= getValue('titulo', $data) ?>"
                         required>
                 </div>
 
@@ -110,11 +133,14 @@ function formatDate($date)
                     <!-- Categoria -->
                     <div class="col-md-6">
                         <label for="categoria_id" class="form-label">Categoria *</label>
-                        <select name="categoria_id" class="form-select" id="categoria_id" required>
+                        <select name="categoria_id"
+                            class="form-select <?= !empty($errors) && empty($_POST['categoria_id'] ?? '') ? 'is-invalid' : '' ?>"
+                            id="categoria_id"
+                            required>
                             <option value="">Selecione uma categoria</option>
                             <?php foreach ($categorias as $categoria): ?>
                                 <option value="<?= $categoria->id ?>"
-                                    <?= (!empty($data->categoria_id) && $categoria->id == $data->categoria_id) ? 'selected' : '' ?>>
+                                    <?= isSelected($categoria->id, $data->categoria_id ?? '') ?>>
                                     <?= htmlspecialchars($categoria->nome) ?>
                                 </option>
                             <?php endforeach; ?>
@@ -125,10 +151,10 @@ function formatDate($date)
                     <div class="col-md-6">
                         <label for="status" class="form-label">Status</label>
                         <select name="status" class="form-select" id="status">
-                            <option value="SIM" <?= (!isset($data->status) || $data->status === "SIM") ? "selected" : "" ?>>
+                            <option value="SIM" <?= isSelected('SIM', $data->status ?? 'SIM') ?>>
                                 Ativo
                             </option>
-                            <option value="NAO" <?= (isset($data->status) && $data->status === "NAO") ? "selected" : "" ?>>
+                            <option value="NAO" <?= isSelected('NAO', $data->status ?? '') ?>>
                                 Inativo
                             </option>
                         </select>
@@ -150,10 +176,10 @@ function formatDate($date)
                 <div class="mb-3">
                     <label for="texto" class="form-label">Texto *</label>
                     <textarea name="texto"
-                        class="form-control"
+                        class="form-control <?= !empty($errors) && empty(trim($_POST['texto'] ?? '')) ? 'is-invalid' : '' ?>"
                         id="texto"
                         rows="5"
-                        required><?= htmlspecialchars($data->texto ?? '') ?></textarea>
+                        required><?= getValue('texto', $data) ?></textarea>
                 </div>
 
                 <!-- Botões -->
@@ -191,6 +217,10 @@ function formatDate($date)
 
     .btn:hover {
         transform: translateY(-1px);
+    }
+
+    .is-invalid {
+        border-color: #dc3545;
     }
 </style>
 
