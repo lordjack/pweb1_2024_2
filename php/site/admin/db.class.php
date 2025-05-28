@@ -5,7 +5,7 @@ class db {
     private $host = "localhost";
     private $user = "root";
     private $password = "";
-    private $port = 3307;
+    private $port = 3306;
     private $dbname ="db_pweb1_2024_2_blog";
     private $table_name;
 
